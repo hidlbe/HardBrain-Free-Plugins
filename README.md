@@ -1,5 +1,8 @@
 # HardBrain Free Plugins
 
+**GitHub:** https://github.com/hidlbe/HardBrain-Free-Plugins
+
+
 **مجاني بالكامل · بدون Pastebin · يعمل على AssettoServer 0.0.55+**
 
 Server-pushed CSP scripts for Assetto Corsa online servers powered by [AssettoServer](https://github.com/compujuckel/AssettoServer).
@@ -112,4 +115,4 @@ AGPL-3.0 — same family as AssettoServer. Free to use on your servers. If you d
 
 ## Credits
 
-HardBrain / Sayrx Performance · AssettoServer by compujuckel · CSP by x4fab
+HardBrain · AssettoServer by compujuckel · CSP by x4fab

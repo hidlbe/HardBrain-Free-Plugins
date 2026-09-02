@@ -19,7 +19,7 @@
 • خفيف وبدون LIVE SPEEDS
 
 📦 GitHub (مجاني + شرح كامل):
-https://github.com/OWNER/HardBrain-Free-Plugins
+https://github.com/hidlbe/HardBrain-Free-Plugins
 
 طريقة الاستخدام:
 1) السيرفر يحدّث لـ 0.55 ويركّب البلجنز
@@ -45,7 +45,7 @@ Gear + RPM + KMH — drag to move, scroll to resize.
 Lightweight native HUD (no live speeds tower).
 
 📦 Full docs + drop-in DLLs:
-https://github.com/OWNER/HardBrain-Free-Plugins
+https://github.com/hidlbe/HardBrain-Free-Plugins
 
 Setup: AS 0.55 → drop plugins → enable in extra_cfg → remove pastebin SCRIPT lines → restart → players reconnect.
 
