@@ -1,0 +1,27 @@
+# Enable CSP client messages feature. Requires CSP 0.1.77+
+EnableClientMessages: true
+MinimumCSPVersion: 2651
+
+# Needed for personal time / weather from the menu
+EnableWeatherFx: true
+
+EnablePlugins:
+  - SpeedoPlugin
+  - HardbrainMenuPlugin
+  - PersonalTimePlugin
+
+---
+!SpeedoConfiguration
+Enabled: true
+UpdateRateHz: 12
+ShowLiveTower: false
+ShowGearRpm: true
+Units: "kmh"
+
+---
+!HardbrainMenuConfiguration
+Enabled: true
+
+---
+!PersonalTimeConfiguration
+Enabled: true

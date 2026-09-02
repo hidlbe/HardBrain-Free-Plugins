@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:"Segoe UI",system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+.shell{display:flex;align-items:flex-end;justify-content:center;width:100%;height:100%;padding:0 12px 10px;gap:10px}
+.dash{position:relative;display:grid;grid-template-columns:150px 1fr 150px;align-items:stretch;width:min(680px,100%);height:118px;background:linear-gradient(180deg,rgba(22,22,26,.97) 0%,rgba(10,10,12,.98) 100%);border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 18px 48px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04);overflow:hidden}
+.dash::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,rgba(170,70,230,.12),transparent 55%);pointer-events:none}
+.panel{position:relative;display:flex;align-items:center;justify-content:center;min-height:118px}
+.panel.left,.panel.right{overflow:hidden}
+.arc{position:absolute;top:50%;width:120px;height:120px;transform:translateY(-50%);pointer-events:none}
+.arc.left{left:-18px}
+.arc.right{right:-18px;transform:translateY(-50%) scaleX(-1)}
+.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:8px 8px;opacity:.35;mask-image:radial-gradient(circle at 50% 50%,#000 42%,transparent 72%)}
+.gear,.speed{font-size:64px;line-height:1;font-weight:700;letter-spacing:-2px;text-shadow:0 0 24px rgba(255,255,255,.08);font-variant-numeric:tabular-nums}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 6px 10px}
+.shift{display:flex;gap:7px;margin-bottom:4px}
+.shift i{display:block;width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:background .08s,box-shadow .08s,transform .08s}
+.shift i.on{background:linear-gradient(180deg,#ff5a78,#d92755);box-shadow:0 0 10px rgba(255,70,110,.75)}
+.shift i.on.hot{background:linear-gradient(180deg,#fff,#ff355f);box-shadow:0 0 14px rgba(255,90,120,.95);transform:scale(1.08)}
+.lbl{font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.55)}
+.rpm{font-size:42px;line-height:1;font-weight:700;letter-spacing:1px;font-variant-numeric:tabular-nums}
+.modes{display:flex;gap:14px;margin-top:2px;font-size:12px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.28)}
+.modes span.active{color:#fff;text-shadow:0 0 12px rgba(180,80,240,.45)}
+.assists{display:flex;gap:18px;margin-top:6px;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.35)}
+.assists span.on{color:#fff}
+.assists span.on::after{content:"";display:inline-block;width:8px;height:8px;margin-left:6px;border-radius:2px;background:linear-gradient(180deg,#b65cff,#7b2fd6);box-shadow:0 0 8px rgba(182,92,255,.65);vertical-align:1px}
+.unit{font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.55);margin-bottom:2px}
+.tower{width:220px;height:118px;background:linear-gradient(180deg,rgba(18,18,22,.96),rgba(8,8,10,.98));border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:8px 10px;display:none;flex-direction:column;box-shadow:0 12px 32px rgba(0,0,0,.45)}
+.tower.show{display:flex}
+.tower h3{font-size:10px;font-weight:800;letter-spacing:2px;color:#e04a68;margin-bottom:6px}
+.tower ul{list-style:none;flex:1;overflow:hidden}
+.tower li{display:flex;justify-content:space-between;font-size:11px;font-weight:600;padding:3px 0;color:rgba(255,255,255,.82);border-bottom:1px solid rgba(255,255,255,.05)}
+.tower li.me{color:#fff;background:rgba(182,92,255,.12);margin:0 -6px;padding:3px 6px;border-radius:4px;border-bottom-color:transparent}
+.tower li span:last-child{font-variant-numeric:tabular-nums;color:rgba(255,255,255,.92)}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="dash">
+    <div class="panel left">
+      <div class="dots"></div>
+      <svg class="arc left" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="gL" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d070ff"/>
+            <stop offset="100%" stop-color="#7b2fd6"/>
+          </linearGradient>
+        </defs>
+        <path d="M 18 98 A 70 70 0 0 1 18 22" fill="none" stroke="url(#gL)" stroke-width="7" stroke-linecap="round"/>
+      </svg>
+      <div id="gear" class="gear">N</div>
+    </div>
+    <div class="center">
+      <div class="shift" id="shift">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="lbl">RPM</div>
+      <div id="rpm" class="rpm">0</div>
+      <div class="modes"><span id="modeA">A</span><span id="modeM" class="active">M</span><span id="modeS">S</span></div>
+      <div class="assists"><span id="abs">ABS</span><span id="tc">TC</span></div>
+    </div>
+    <div class="panel right">
+      <div class="dots"></div>
+      <svg class="arc right" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="gR" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#d070ff"/>
+            <stop offset="100%" stop-color="#7b2fd6"/>
+          </linearGradient>
+        </defs>
+        <path d="M 18 98 A 70 70 0 0 1 18 22" fill="none" stroke="url(#gR)" stroke-width="7" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div id="unit" class="unit">KMH</div>
+        <div id="speed" class="speed">0</div>
+      </div>
+    </div>
+  </div>
+  <div id="tower" class="tower">
+    <h3>LIVE SPEEDS</h3>
+    <ul id="towerRows"></ul>
+  </div>
+</div>
+<script>
+var gearEl=document.getElementById('gear'),rpmEl=document.getElementById('rpm'),speedEl=document.getElementById('speed'),unitEl=document.getElementById('unit');
+var absEl=document.getElementById('abs'),tcEl=document.getElementById('tc'),shiftEl=document.getElementById('shift');
+var towerEl=document.getElementById('tower'),towerRows=document.getElementById('towerRows');
+var shiftDots=shiftEl.querySelectorAll('i');
+
+function gearLabel(g){
+  g=Number(g);
+  if(g===0)return 'N';
+  if(g===-1)return 'R';
+  return String(g);
+}
+
+function setShiftLights(n){
+  for(var i=0;i<shiftDots.length;i++){
+    var on=i<n;
+    shiftDots[i].className=on?(i>=shiftDots.length-2?'on hot':'on'):'';
+  }
+}
+
+function renderTower(rows){
+  towerRows.innerHTML='';
+  if(!rows||!rows.length)return;
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    var li=document.createElement('li');
+    if(r.me)li.className='me';
+    var name=(r.name||('P'+i)).slice(0,14);
+    li.innerHTML='<span>'+(i+1)+' '+name+'</span><span>'+r.speed+'</span>';
+    towerRows.appendChild(li);
+  }
+}
+
+function applyState(data){
+  if(!data)return;
+  var speed=Number(data.speed||0);
+  var rpm=Number(data.rpm||0);
+  var gear=data.gear;
+  var unit=(data.unit||'kmh').toUpperCase();
+  var abs=Number(data.abs||0)===1;
+  var tc=Number(data.tc||0)===1;
+  var lights=Number(data.lights||0);
+  var tower=Number(data.tower||0)===1;
+
+  gearEl.textContent=gearLabel(gear);
+  rpmEl.textContent=Math.max(0,Math.floor(rpm));
+  speedEl.textContent=Math.max(0,Math.floor(speed));
+  unitEl.textContent=unit;
+  absEl.className=abs?'on':'';
+  tcEl.className=tc?'on':'';
+  setShiftLights(Math.max(0,Math.min(7,lights)));
+
+  towerEl.className=tower?'tower show':'tower';
+  if(tower && data.rows){
+    try{
+      var rows=typeof data.rows==='string'?JSON.parse(decodeURIComponent(data.rows)):data.rows;
+      renderTower(rows);
+    }catch(e){renderTower([]);}
+  }
+}
+
+function applyHash(){
+  var p=new URLSearchParams(location.hash.substring(1));
+  applyState({
+    speed:p.get('speed'),
+    gear:p.get('gear'),
+    rpm:p.get('rpm'),
+    unit:p.get('unit'),
+    abs:p.get('abs'),
+    tc:p.get('tc'),
+    lights:p.get('lights'),
+    tower:p.get('tower'),
+    rows:p.get('rows')
+  });
+}
+
+window.addEventListener('hashchange',applyHash);
+window.addEventListener('message',function(event){
+  var data=event.data;
+  if(!data)return;
+  if(data.type==='u'&&data.payload){
+    applyState(data.payload);
+    return;
+  }
+  if(data.speed!==undefined||data.rpm!==undefined){
+    applyState(data);
+  }
+});
+
+setInterval(applyHash,80);
+applyHash();
+
+if(window.external&&window.external.postMessage){
+  window.external.postMessage('ready');
+}
+</script>
+</body>
+</html>
