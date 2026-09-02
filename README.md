@@ -1,7 +1,7 @@
 # HardBrain Free Plugins
 
-**GitHub:** https://github.com/hidlbe/HardBrain-Free-Plugins
-
+**GitHub:** https://github.com/hidlbe/HardBrain-Free-Plugins  
+**Website:** https://hardbrain.host
 
 **مجاني بالكامل · بدون Pastebin · يعمل على AssettoServer 0.0.55+**
 
@@ -14,6 +14,15 @@ Server-pushed CSP scripts for Assetto Corsa online servers powered by [AssettoSe
 | **PersonalTimePlugin** | Makes menu Time & Weather actually apply (per-player, no flicker) |
 
 > The first two are the public “free scripts”. PersonalTime is included because the menu Time/Weather tabs need it.
+
+## Hosting — KVM & game servers
+
+Need a server for Assetto Corsa or anything else?
+
+You can get **any KVM** and **game hosting** from us at **[hardbrain.host](https://hardbrain.host)** — panels, game servers, and full VPS/KVM setups.
+
+تحتاج سيرفر لـ Assetto Corsa أو أي لعبة ثانية؟  
+تقدر تطلب **أي KVM** و**استضافة ألعاب** من عندنا عبر **[hardbrain.host](https://hardbrain.host)**.
 
 ---
 
@@ -115,4 +124,4 @@ AGPL-3.0 — same family as AssettoServer. Free to use on your servers. If you d
 
 ## Credits
 
-HardBrain · AssettoServer by compujuckel · CSP by x4fab
+[HardBrain](https://hardbrain.host) · AssettoServer by compujuckel · CSP by x4fab
